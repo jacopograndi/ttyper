@@ -233,7 +233,7 @@ fn main() -> crossterm::Result<()> {
                 ..
             }) => match state {
                 State::Test(ref test) => {
-                    state = State::Results(Results::from(test));
+                    //state = State::Results(Results::from(test));
                 }
                 State::Results(_) => break,
             },

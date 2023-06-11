@@ -28,9 +28,10 @@ pub struct TestWord {
 
 impl From<String> for TestWord {
     fn from(string: String) -> Self {
+        let frontspace = string.len() - string.trim_start().len();
         TestWord {
             text: string,
-            progress: String::new(),
+            progress: (0..frontspace).map(|_| " ").collect(),
             events: Vec::new(),
         }
     }
@@ -59,7 +60,7 @@ impl Test {
 
         let word = &mut self.words[self.current_word];
         match key.code {
-            KeyCode::Char(' ') | KeyCode::Enter => {
+            KeyCode::Enter => {
                 if word.text.chars().nth(word.progress.len()) == Some(' ') {
                     word.progress.push(' ');
                     word.events.push(TestEvent {

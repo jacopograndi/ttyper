@@ -162,6 +162,7 @@ impl ThemedWidget for &Test {
             let mut current_line: Vec<Span> = Vec::new();
             let mut current_width = 0;
             for word in words {
+                /*
                 let word_width: usize = word.iter().map(|s| s.width()).sum();
 
                 if current_width + word_width > chunks[1].width as usize - 2 {
@@ -173,18 +174,23 @@ impl ThemedWidget for &Test {
 
                 current_line.extend(word);
                 current_width += word_width;
+
+                */
+                lines.push(Line::from(word));
             }
             lines.push(Line::from(current_line));
 
             lines
         };
-        let target = Paragraph::new(target_lines).block(
-            Block::default()
-                .title(Span::styled("Prompt", theme.title))
-                .borders(Borders::ALL)
-                .border_type(BorderType::Rounded)
-                .border_style(theme.prompt_border),
-        );
+        let target = Paragraph::new(target_lines)
+            .block(
+                Block::default()
+                    .title(Span::styled("Prompt", theme.title))
+                    .borders(Borders::ALL)
+                    .border_type(BorderType::Rounded)
+                    .border_style(theme.prompt_border),
+            )
+            .scroll(((self.current_word as i64 - 10).max(0) as u16, 0));
         target.render(chunks[1], buf);
     }
 }
